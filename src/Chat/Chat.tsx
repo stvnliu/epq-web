@@ -3,7 +3,7 @@ import { Message } from "./Message";
 import { Client, Stomp } from "@stomp/stompjs";
 import { MessageType } from "./types";
 import { renderToStaticMarkup } from 'react-dom/server';
-const domain = "localhost"
+const domain = window.location.hostname
 const port = "8080"
 const connectionAddress = `ws://${domain}:${port}/ws`
 const ChatWrapper = (
