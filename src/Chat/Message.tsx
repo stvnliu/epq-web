@@ -9,5 +9,5 @@ export const Message = (
     }
 ): React.ReactElement<{ sender: string; text: string; }> => {
 
-    return (<p>Message from {sender} @ {}: {text}</p>);
+    return (<p>Message from {sender}: {text}</p>);
 };

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Message } from "./Message";
 import { Client, Stomp } from "@stomp/stompjs";
 import { MessageType } from "./types";
-import useWebSocket from "react-use-websocket";
-
+import { renderToStaticMarkup } from 'react-dom/server';
+const domain = "localhost"
+const port = "8080"
+const connectionAddress = `ws://${domain}:${port}/ws`
 const ChatWrapper = (
     {
         user,
@@ -14,24 +16,23 @@ const ChatWrapper = (
         brokerURL: string,
     }
 ): React.ReactElement => {
-    const domain = "localhost"
-    const port = "8080"
-    const connectionAddress = `ws://${domain}:${port}/ws`
     const stompClient = new Client({
         brokerURL: connectionAddress
     })
-    const [destination, setDestination] = useState<string>("/app/chat")
-    const [connected, setConnected] = useState(false)
-    const [subscribe, setSubscribe] = useState("/sub/chat")
-    const [username, setUsername] = useState<string>(user)
-    const [children, setChildren] = useState<React.ReactElement>()
+    const destination = "/app/chat"
+    const subscribe = "/sub/chat"
+    // const [children, setChildren] = useState<React.ReactElement[]>([])
     stompClient.onConnect = (frame) => {
-        setConnected(true);
         stompClient.subscribe(subscribe, (message) => {
             console.log(`Collected new message: ${message.body}`);
             const {from, to, content} = JSON.parse(message.body) as MessageType
             const messageElement = <Message sender={from} text={content} />
-            setChildren(messageElement)
+            // setChildren((prev) => [...prev, messageElement])
+            console.log(messageElement);
+
+            // Temporary solution
+            const container = document.getElementById("chat-inner") as HTMLDivElement
+            container.innerHTML += renderToStaticMarkup(messageElement)
         })
     }
     stompClient.onWebSocketError = (error) => {
@@ -42,58 +43,37 @@ const ChatWrapper = (
         console.error('Broker reported error: ' + frame.headers['message']);
         console.error('Additional details: ' + frame.body);
     };
+    
     const sendDataButtonHandler = (ev: React.MouseEvent) => {
         console.log("WebSockets handler invoked.")
-        ev.preventDefault()
+        
         const entryElement: HTMLInputElement = document.getElementById("data-entry") as HTMLInputElement
         const messageData = 
         {
-            from: username,
+            from: user,
             to: "everyone",
             content: entryElement.value
         }
         console.log(`STOMP connection status: ${stompClient.connected}`);
         
-        if (stompClient.connected) {
-            stompClient.publish({
-                body: JSON.stringify(messageData),
-                destination: destination
-            })
-        } else {alert("STOMP not activated!")}
+        stompClient.publish({
+            body: JSON.stringify(messageData),
+            destination: destination
+        })
+        ev.preventDefault()
     }
-    const connect = () => {
+    useEffect(() => {
         stompClient.activate()
-    }
-    const disconnect = () => {
-        stompClient.deactivate()
-    }
-    // connection.addEventListener("open", (ev: Event) => {
-    //     ev.preventDefault()
-    //     connection.send("Hello world!")
-    // })
-    // connection.addEventListener("message", (ev: MessageEvent) => {
-    //     ev.preventDefault()
-    //     const wrappers = document.getElementsByClassName(msgWrapperClassName)
-
-    //     // Matches data from JSON data input against ChatMessage datatype for processing
-    //     const data = JSON.parse(ev.data) as ChatMessage
-    //     for (let index = 0; index < wrappers.length; index++) {
-    //         const element: Element | null = wrappers.item(index);
-    //         if (!element) {
-    //             console.error("msgWrapper class cannot be found! Message not delivered.")
-    //             return
-    //         }
-    //         messageElementsArray.push(<Message sender={data.from} text={data.message} />)
-    //         // TODO Create new message 
-    //         // DDL 20 DEC
-    //     }
-    // })
+        return () => {
+            stompClient.deactivate()
+        }
+    }, [])
     return (
         <div className="chat">
-            <button onClick={ev => connect()} disabled={false}>Connect</button>
-            <button onClick={ev => disconnect()} disabled={!connected}>Disconnect</button>
+            {/* <button onClick={ev => {connect()}} disabled={connected}>Connect</button>
+            <button onClick={ev => {disconnect()}} disabled={!connected}>Disconnect</button> */}
             <div id="chat-inner">
-            {children}
+            {/* {children} */}
             </div>
             <span><input id="data-entry"></input><button onClick={ev => sendDataButtonHandler(ev)}>Send</button></span>
         </div>
