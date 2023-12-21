@@ -1,22 +1,12 @@
 import React from "react";
 import { Attachment, Avatar, ChatMessage, ServerMsgType, User } from "./ChatMessage";
 import { connect } from "http2";
+import { Message } from "./Message";
+import { Client, Stomp } from "@stomp/stompjs";
 const domain = "localhost"
 const port = "8080"
-const connectionAddress = `ws://${domain}:${port}`
-const Message = (
-    {
-        sender,
-        text,
-    }:
-    {
-        sender: string
-        text: string,
-    }
-    ): React.ReactElement<{sender: string, text: string}> => {
-    
-    return (<p>Message from {sender}: {text}</p>)
-}
+const connectionAddress = `ws://${domain}:${port}/ws`
+const stompClient = new Client()
 const Chat = (
     {
         user
@@ -29,6 +19,7 @@ const Chat = (
     const msgWrapperClassName = "msg-wrapper"
     const connection = new WebSocket(connectionAddress)
     const sendDataButtonHandler = (ev: React.MouseEvent) => {
+        console.log("WebSockets handler invoked.")
         ev.preventDefault()
         const entryElement: HTMLInputElement = document.getElementById("data-entry") as HTMLInputElement
         const messageData = 
@@ -65,7 +56,7 @@ const Chat = (
             <div className={msgWrapperClassName}>
             {messageElementsArray}
             </div>
-            <span><input id="data-entry"></input><button onClick={ev => sendDataButtonHandler}></button></span>
+            <span><input id="data-entry"></input><button onClick={ev => sendDataButtonHandler(ev)}>Send</button></span>
         </div>
     )
 }
