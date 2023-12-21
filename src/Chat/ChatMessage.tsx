@@ -6,6 +6,14 @@ enum FileType {
     EXEC_BINARY,
     UNKNOWN,
 }
+export type User = {
+    name: string,
+    userId: string,
+    avatar: Avatar
+} 
+export type Avatar = {
+    pictureUri: string,
+}
 export type Attachment = {
     name: string,
     uri: string,
@@ -20,4 +28,7 @@ export type ChatMessage = {
     timestampPosted: number,
     message: string,
     attachments: Attachment
+}
+export type ServerMsgType = {
+    
 }
