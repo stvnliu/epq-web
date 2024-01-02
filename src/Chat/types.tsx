@@ -1,5 +1,6 @@
 export type MessageType = {
-    from: string,
-    to: string,
-    content: string
+    fromUserId: string,
+    toUserId: string,
+    content: string,
+    timeMillis: number
 }
