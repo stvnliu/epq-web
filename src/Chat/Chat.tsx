@@ -106,7 +106,9 @@ const ChatWrapper = (
     })
     return (
         <div className="chat">
-            <div id="chat-inner">
+            <div className="chat-inner-wrapper">
+                <div id="chat-inner">
+                </div>
             </div>
             <span className="entry-box"><input id="data-entry"></input><button onClick={() => sendData()}>Send</button></span>
         </div>
