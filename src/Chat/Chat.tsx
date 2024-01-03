@@ -33,7 +33,7 @@ const ChatWrapper = (
         stompClient.subscribe(endpoints.subscription, (message) => {
             console.log(`Collected new message: ${message.body}`);
             const messageBody = JSON.parse(message.body) as Message
-            if (messageBody.type === MessageType.MESSAGE) {return;}
+            // if (messageBody.type !== MessageType.MESSAGE) {return;}
             const messageElement = <MessageContainer {...messageBody} />
             console.log(messageElement);
 
@@ -46,6 +46,7 @@ const ChatWrapper = (
         });
         stompClient.publish({
             body: JSON.stringify({
+                type: MessageType.HELLO,
                 fromUserId: user,
                 toUserId: "everyone",
                 content: `${user} has joined the server!`,
@@ -74,7 +75,7 @@ const ChatWrapper = (
         if (!entryElement.value) {alert("Message cannot be empty!"); return;}
         const messageData: Message = 
         {
-            type: MessageType.HELLO,
+            type: MessageType.MESSAGE,
             fromUserId: user,
             toUserId: "everyone",
             content: entryElement.value,
