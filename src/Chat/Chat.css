@@ -1,0 +1,14 @@
+#chat-inner {
+    height: 250px;
+    overflow-y: auto;
+    overflow-wrap: normal;
+}
+.entry-box {
+    position: absolute;
+    bottom: 0;
+    min-height: 20%;
+}
+.chat {
+    min-height: 80vh;
+    position: relative;
+}

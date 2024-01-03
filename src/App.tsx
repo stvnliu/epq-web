@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ChatWrapper from "./Chat/Chat";
+import "./App.css";
 const App = (): React.ReactElement => {
     const [username, setUsername] = useState<string>()
     if (!username) {

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Message } from "./Message";
-import { Client, Stomp } from "@stomp/stompjs";
-import { MessageType } from "./types";
+import { MessageContainer } from "./MessageContainer";
+import { Client, Stomp, StompHeaders } from "@stomp/stompjs";
+import { Message, MessageType } from "./types";
 import { renderToStaticMarkup } from 'react-dom/server';
+import './Chat.css';
 // The last bit of magic sauce to make this work
 // EXPLANATION
 // 
@@ -31,8 +32,9 @@ const ChatWrapper = (
     stompClient.onConnect = (frame) => {
         stompClient.subscribe(endpoints.subscription, (message) => {
             console.log(`Collected new message: ${message.body}`);
-            const {fromUserId, toUserId, content, timeMillis} = JSON.parse(message.body) as MessageType
-            const messageElement = <Message sender={fromUserId} text={content} />
+            const messageBody = JSON.parse(message.body) as Message
+            if (messageBody.type === MessageType.MESSAGE) {return;}
+            const messageElement = <MessageContainer {...messageBody} />
             console.log(messageElement);
 
             // Temporary solution
@@ -70,8 +72,9 @@ const ChatWrapper = (
         // TODO Explore
         const entryElement: HTMLInputElement = document.getElementById("data-entry") as HTMLInputElement
         if (!entryElement.value) {alert("Message cannot be empty!"); return;}
-        const messageData: MessageType = 
+        const messageData: Message = 
         {
+            type: MessageType.HELLO,
             fromUserId: user,
             toUserId: "everyone",
             content: entryElement.value,
@@ -80,7 +83,10 @@ const ChatWrapper = (
         console.log(`STOMP connection status: ${stompClient.connected}`); 
         stompClient.publish({
             body: JSON.stringify(messageData),
-            destination: endpoints.destination
+            destination: endpoints.destination,
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
         });
         entryElement.value = "";
     }
@@ -102,7 +108,7 @@ const ChatWrapper = (
         <div className="chat">
             <div id="chat-inner">
             </div>
-            <span><input id="data-entry"></input><button onClick={() => sendData()}>Send</button></span>
+            <span className="entry-box"><input id="data-entry"></input><button onClick={() => sendData()}>Send</button></span>
         </div>
     )
 }
