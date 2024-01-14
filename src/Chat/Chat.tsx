@@ -1,9 +1,17 @@
-import React, { ReactElement, useEffect, useRef, useState } from "react";
+import React, {
+	ReactElement,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { MessageContainer } from "./MessageContainer";
 import { Client, Stomp, StompHeaders } from "@stomp/stompjs";
-import { Message, MessageType } from "./types";
+import { LangType, Message, MessageType } from "./types";
 import { renderToStaticMarkup } from "react-dom/server";
 import "./Chat.css";
+import strings from "../Intl/strings.json";
+import { LangContext } from "../context";
 // The last bit of magic sauce to make this work
 // EXPLANATION
 //
@@ -16,6 +24,8 @@ const endpoints = {
 	history: "/api/v1/msg/",
 };
 const Chat = ({ user }: { user: string }): React.ReactElement => {
+	const lang = useContext(LangContext);
+	const chatPage = strings[lang].chat;
 	const [messages, setMessages] = useState<ReactElement[]>([]);
 	let stompClientRef = useRef(
 		new Client({
@@ -61,7 +71,6 @@ const Chat = ({ user }: { user: string }): React.ReactElement => {
 
 	// Button press event handler.
 	const sendData = () => {
-
 		const entryElement: HTMLInputElement = document.getElementById(
 			"data-entry"
 		) as HTMLInputElement;
@@ -103,12 +112,12 @@ const Chat = ({ user }: { user: string }): React.ReactElement => {
 	});
 	return (
 		<div className="chat">
-            <div className="chat-inner-wrapper">
-                {messages}
-            </div>
+			<div className="chat-inner-wrapper">{messages}</div>
 			<span className="entry-box">
 				<input id="data-entry"></input>
-				<button onClick={() => sendData()}>Send</button>
+				<button onClick={() => sendData()}>
+					{chatPage.sendButtonPrompt}
+				</button>
 			</span>
 		</div>
 	);

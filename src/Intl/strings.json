@@ -1,0 +1,64 @@
+{
+	"variableNames": ["userName", "content"],
+	"acceptedLangs": ["en_US", "zh_TW", "el_GR"],
+	"en_US": {
+		"homepage": {
+			"userNamePrompt": "Your username: ",
+			"title": "LAN Chat Server",
+			"description": "This web application was built for the purposes of an EPQ project.",
+			"copyrightText": "Copyright 2024 - 2025 Zhongheng Liu @ Byron College",
+			"switchLang": "Switch Language",
+			"newLangPrompt": "Input your ISO-639_ISO-3166 language-contry code below - for example: \"en_US\": "
+		},
+		"chat": {
+			"sendButtonPrompt": "Send",
+			"serverMessage": "Message from $userName: $content",
+			"joinMessage": "$userName joined the server"
+		}
+	},
+	"zh_TW": {
+		"homepage": {
+			"userNamePrompt": "您的用戶名： ",
+			"title": "本地聊天伺服器",
+			"description": "該網絡伺服器應用程式專爲Edexcel Level 3 EPQ而製作",
+			"copyrightText": "版權所有 2024 - 2025 Zhongheng Liu @ Byron College",
+			"switchLang": "切換語言",
+			"newLangPrompt": "在下方輸入您想使用的語言的ISO-639_ISO-3166組合語言代碼 - 例如：\"en_US\"："
+		},
+		"chat": {
+			"sendButtonPrompt": "發送",
+			"serverMessage": "來自 $userName 的訊息：$content",
+			"joinMessage": "$userName 加入了伺服器！"
+		}
+	},
+	"el_GR": {
+		"homepage": {
+			"userNamePrompt": "το όνομα χρήστη σας: ",
+			"title": "Διακομιστής τοπικού δικτύου συνομιλίας",
+			"description": "Αυτή η διαδικτυακή εφαρμογή δημιουργήθηκε για τους σκοπούς ενός έργου EPQ.",
+			"copyrightText": "Πνευματικά δικαιώματα 2024 - 2025 Zhongheng Liu @ Byron College",
+			"switchLang": "Αλλαγή γλώσσας",
+			"newLangPrompt": "Εισαγάγετε τον κωδικό γλώσσας-χώρας ISO-639 ISO-3166 παρακάτω - για παράδειγμα: \"en_US\":"
+		},
+		"chat": {
+			"sendButtonPrompt": "Στείλετε",
+			"joinMessage": "$userName έγινε μέλος του διακομιστή",
+			"serverMessage": "μήνυμα από $userName: $content"
+		}
+	},
+	"ar_SA": {
+		"homepage": {
+			"userNamePrompt": "اسم المستخدم الخاص بك:",
+			"title": "خادم الدردشة LAN",
+			"description": "تم إنشاء تطبيق الويب هذا لأغراض مشروع EPQ.",
+			"copyrightText": "حقوق الطبع والنشر 2024 - 2025 Zhongheng Liu @ كلية بايرون",
+			"switchLang": "تبديل اللغة",
+			"newLangPrompt": "أدخل رمز اللغة ISO-639_ISO-3166 أدناه - على سبيل المثال: \"en_US\":"
+		},
+		"chat": {
+			"sendButtonPrompt": "يرسل",
+			"joinMessage": "$userName انضم إلى الخادم",
+			"serverMessage": "رسالة من $userName: $content"
+		}
+	}
+}
