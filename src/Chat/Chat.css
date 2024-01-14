@@ -3,7 +3,7 @@
     overflow-y: auto;
     overflow-wrap: normal;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 
 }
 .entry-box {
