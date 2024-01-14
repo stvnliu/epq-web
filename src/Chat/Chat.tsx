@@ -36,7 +36,6 @@ const Chat = ({ user }: { user: string }): React.ReactElement => {
 					/>,
 				]);
 			});
-			console.log(messages);
 		});
 		stompClientRef.current.publish({
 			body: JSON.stringify({
@@ -62,14 +61,11 @@ const Chat = ({ user }: { user: string }): React.ReactElement => {
 
 	// Button press event handler.
 	const sendData = () => {
-		console.log("WebSockets handler invoked.");
-		// There must be a react-native and non-document-getElementById way to do this
-		// TODO Explore
+
 		const entryElement: HTMLInputElement = document.getElementById(
 			"data-entry"
 		) as HTMLInputElement;
-		if (!entryElement.value) {
-			alert("Message cannot be empty!");
+		if (entryElement.value === "") {
 			return;
 		}
 		const messageData: Message = {
@@ -98,10 +94,10 @@ const Chat = ({ user }: { user: string }): React.ReactElement => {
 		return () => {
 			stompClientRef.current.deactivate();
 		};
-	}, [stompClientRef]);
+	}, []);
 	// https://www.w3schools.com/jsref/obj_keyboardevent.asp
-	document.addEventListener("keypress", (ev: KeyboardEvent) => {
-		if (ev.key == "Enter") {
+	document.addEventListener("keydown", (ev: KeyboardEvent) => {
+		if (ev.key === "Enter") {
 			sendData();
 		}
 	});
