@@ -15,7 +15,7 @@ const endpoints = {
 	subscription: "/sub/chat",
 	history: "/api/v1/msg/",
 };
-const ChatWrapper = ({ user }: { user: string }): React.ReactElement => {
+const Chat = ({ user }: { user: string }): React.ReactElement => {
 	const [messages, setMessages] = useState<ReactElement[]>([]);
 	let stompClientRef = useRef(
 		new Client({
@@ -117,4 +117,4 @@ const ChatWrapper = ({ user }: { user: string }): React.ReactElement => {
 		</div>
 	);
 };
-export default ChatWrapper;
+export default Chat;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ChatWrapper from "./Chat/ChatWrapper";
+import Chat from "./Chat/Chat";
 import "./App.css";
 import { Message } from "./Chat/types";
 import { MessageContainer } from "./Chat/MessageContainer";
@@ -21,7 +21,7 @@ const App = (): React.ReactElement => {
 				return <MessageContainer {...message} />;
 			})}
 			{
-				<ChatWrapper
+				<Chat
 					user={username as string}
 				/>
 			}

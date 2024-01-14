@@ -1,5 +1,5 @@
 import { Client } from "@stomp/stompjs";
-import { Message, MessageType } from "./types";
+import { Message, MessageType } from "../Chat/types";
 const domain = window.location.hostname
 const port = "8080"
 const connectionAddress = `ws://${domain}:${port}/ws`
