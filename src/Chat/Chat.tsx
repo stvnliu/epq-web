@@ -6,23 +6,12 @@ import React, {
 	useState,
 } from "react";
 import { MessageContainer } from "./MessageContainer";
-import { Client, Stomp, StompHeaders } from "@stomp/stompjs";
-import { LangType, Message, MessageType } from "./types";
-import { renderToStaticMarkup } from "react-dom/server";
+import { Client } from "@stomp/stompjs";
+import { Message, MessageType } from "./messageTypes";
 import "./Chat.css";
 import strings from "../Intl/strings.json";
 import { LangContext } from "../context";
-// The last bit of magic sauce to make this work
-// EXPLANATION
-//
-const domain = window.location.hostname;
-const port = "8080";
-const connectionAddress = `ws://${domain}:${port}/ws`;
-const endpoints = {
-	destination: "/app/chat",
-	subscription: "/sub/chat",
-	history: "/api/v1/msg/",
-};
+import { connectionAddress, endpoints } from "../consts";
 const Chat = ({ user }: { user: string }): React.ReactElement => {
 	const lang = useContext(LangContext);
 	const chatPage = strings[lang].chat;

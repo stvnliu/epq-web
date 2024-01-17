@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Message, MessageType } from "./types";
+import { Message, MessageType } from "./messageTypes";
 import { LangContext } from "../context";
 import strings from "../Intl/strings.json";
 export const MessageContainer = ({
@@ -41,7 +41,7 @@ export const MessageContainer = ({
 			);
 		case MessageType.DATA as MessageType:
 			return <></>;
-		case MessageType.SYSTEM as MessageType:
+		case MessageType.CHNAME as MessageType:
 			return <></>;
 		default:
 			console.error("Illegal MessageType reported!");

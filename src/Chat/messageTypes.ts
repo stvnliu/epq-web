@@ -1,6 +1,6 @@
 export const enum MessageType {
 	MESSAGE = "MESSAGE",
-	SYSTEM = "SYSTEM",
+	CHNAME = "CHNAME",
 	HELLO = "HELLO",
 	DATA = "DATA",
 }
@@ -42,5 +42,10 @@ export type Message = {
 	content: string;
 	timeMillis: number;
 };
-export const acceptedLangs = ["en_US", "zh_TW", "el_GR"] as const;
+export const acceptedLangs = [
+	"en_US", 
+	"zh_TW", 
+	"el_GR", 
+	"ar_SA"
+] as const;
 export type LangType = (typeof acceptedLangs)[number];
