@@ -6,8 +6,6 @@ import { MessageContainer } from "./Chat/MessageContainer";
 import strings from "./Intl/strings.json";
 import { LangContext, LoginType } from "./context";
 import { contentTypes, domain, endpoints, port } from "./consts";
-import { randomUUID } from "crypto";
-
 // what we "in the business" call type gymnastics
 const Wrapper = (): React.ReactElement => {
 	const [lang, setLang] = useState<LangType>("en_US");

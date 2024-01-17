@@ -7,8 +7,4 @@ const LangContext = createContext("en_US");
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
 );
-root.render(
-	<LangContext.Provider value="en_US">
-		<Wrapper />
-	</LangContext.Provider>
-);
+root.render(<Wrapper />);
