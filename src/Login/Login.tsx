@@ -6,7 +6,7 @@ const encrypt = (rawPasswordString: string) => {
 	// TODO Encryption method stub
 	return rawPasswordString;
 };
-const Login = ({
+export const Login = ({
 	setLogin,
 }: {
 	setLogin: (newLogin: LoginType) => void;
@@ -40,12 +40,14 @@ const Login = ({
 			}
 		});
 	};
+	// login button press handler
 	const loginHandler = () => {
 		const uname = (document.getElementById("username") as HTMLInputElement)
 			.value;
 		const passwd = encrypt(
 			(document.getElementById("passwd") as HTMLInputElement).value
 		);
+		// async invocation of Fetch API
 		fetch(`http://${domain}:${port}${endpoints.user}?user=${uname}`, {
 			method: "GET",
 		})
@@ -54,6 +56,17 @@ const Login = ({
 				const user = userObject as User;
 				const validLogin = passwd === user.passwordHash;
 				if (!validLogin) {
+					// login invalid
+					setValid(false); // triggers page re-render -- should refresh the page
+				} else {
+					// login valid
+					const validUntilDate: Date = new Date();
+					validUntilDate.setHours(validUntilDate.getHours() + 2);
+					setLogin({
+						username: user.userName,
+						lastSeen: user.lastSeen,
+						validUntil: validUntilDate.getUTCMilliseconds(),
+					});
 				}
 			});
 	};
