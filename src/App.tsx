@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Chat from "./Chat/Chat";
 import "./App.css";
 import { LangType, Message } from "./Chat/messageTypes";
-import { MessageContainer } from "./Chat/MessageContainer";
+import { MessageDisplay } from "./Chat/MessageDisplay";
 import strings from "./Intl/strings.json";
 import { LangContext, LoginContext, LoginType } from "./context";
 import { contentTypes, domain, endpoints, port } from "./consts";
@@ -11,19 +11,31 @@ import { Login } from "./Login/Login";
 const Wrapper = (): React.ReactElement => {
 	const [lang, setLang] = useState<LangType>("en_US");
 	const [login, setLogin] = useState<LoginType | undefined>(undefined);
+	useEffect(() => {
+		document.title = login
+			? `IRC logged in as ${login.username}`
+			: "IRC Chat";
+	}, [login]);
 	return (
 		<LangContext.Provider value={lang}>
+			<h1>{strings[lang].homepage.title}</h1>
+			<p>{strings[lang].homepage.description}</p>
 			<LoginContext.Provider value={login}>
+				{/* callbacks for altering the Lang/Login contexts */}
 				<Login
 					setLogin={(value) => {
 						setLogin(value);
 					}}
 				></Login>
-				<App
-					changeLang={(value: string) => {
-						setLang(value as LangType);
-					}}
-				/>
+				{login ? (
+					<App
+						changeLang={(value: string) => {
+							setLang(value as LangType);
+						}}
+					/>
+				) : (
+					<></>
+				)}
 			</LoginContext.Provider>
 		</LangContext.Provider>
 	);
@@ -33,6 +45,7 @@ const setNameOnServer = async (name: string) => {
 		`http://${domain}:${port}${endpoints.user}`,
 		{
 			method: "POST",
+			mode: "cors",
 			headers: contentTypes.json,
 			body: JSON.stringify({
 				userName: name,
@@ -77,23 +90,20 @@ const App = ({
 			}
 		});
 	};
-	if (!username) {
-		var newName = prompt(home.userNamePrompt) as string;
-		while (!validateName(newName)) {
-			console.log(newName);
+	// if (!username) {
+	// 	var newName = prompt(home.userNamePrompt) as string;
+	// 	while (!validateName(newName)) {
+	// 		console.log(newName);
 
-			prompt("Username invalid! Please enter again.") as string;
-		}
-		setUsername(newName);
-	}
+	// 		prompt("Username invalid! Please enter again.") as string;
+	// 	}
+	// 	setUsername(newName);
+	// }
 	if (!login) {
 		return <></>;
 	} else
 		return (
 			<div className="App">
-				<h1>{home.title}</h1>
-				<pre>{home.description}</pre>
-				<h3>Your name is: {username}</h3>
 				<button
 					onClick={(ev) => {
 						const selection = prompt(home.newLangPrompt);
@@ -130,9 +140,9 @@ const App = ({
 					Change Username
 				</button>
 				{messages.map((message) => {
-					return <MessageContainer {...message} />;
+					return <MessageDisplay {...message} />;
 				})}
-				{<Chat user={username as string} />}
+				{<Chat user={login.username as string} />}
 			</div>
 		);
 };

@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { Message, MessageType } from "./messageTypes";
 import { LangContext } from "../context";
 import strings from "../Intl/strings.json";
-export const MessageContainer = ({
+import "./MessageDisplay.css";
+export const MessageDisplay = ({
 	type,
 	fromUserId,
 	toUserId,
@@ -21,19 +22,23 @@ export const MessageContainer = ({
 	 *   This caused the return statement to fail, and the message fails to render, despite it being correctly committed to the db.
 	 *   Funny clown moment 🤡
 	 */
-
+	const timeString = `${
+		dateTime.getHours() > 12
+			? dateTime.getHours() - 12
+			: dateTime.getHours()
+	}:${dateTime.getMinutes()} ${dateTime.getHours() > 12 ? "PM" : "AM"}`;
 	switch (type) {
 		case MessageType.HELLO as MessageType:
 			return (
-				<p>
-					[{dateTime.toLocaleString()}]{" "}
+				<p className="msg">
+					[{timeString}]{" "}
 					{msgPage.joinMessage.replace("$userName", fromUserId)}
 				</p>
 			);
 		case MessageType.MESSAGE as MessageType:
 			return (
-				<p>
-					[{dateTime.toLocaleString()}]{" "}
+				<p className="msg">
+					[{timeString}]{" "}
 					{msgPage.serverMessage
 						.replace("$userName", fromUserId)
 						.replace("$content", content)}
@@ -46,9 +51,9 @@ export const MessageContainer = ({
 		default:
 			console.error("Illegal MessageType reported!");
 			return (
-				<p>
-					[{dateTime.toLocaleString()}] **THIS MESSAGE CANNOT BE
-					CORRECTLY SHOWN BECAUSE THE CLIENT ENCOUNTERED AN ERROR**
+				<p className="msg-err">
+					[{timeString}] **THIS MESSAGE CANNOT BE CORRECTLY SHOWN
+					BECAUSE THE CLIENT ENCOUNTERED AN ERROR**
 				</p>
 			);
 	}

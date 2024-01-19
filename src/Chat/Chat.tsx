@@ -5,7 +5,7 @@ import React, {
 	useRef,
 	useState,
 } from "react";
-import { MessageContainer } from "./MessageContainer";
+import { MessageDisplay } from "./MessageDisplay";
 import { Client } from "@stomp/stompjs";
 import { Message, MessageType } from "./messageTypes";
 import "./Chat.css";
@@ -29,7 +29,7 @@ const Chat = ({ user }: { user: string }): React.ReactElement => {
 			console.log(messageBody);
 			setMessages((message) => {
 				return message.concat([
-					<MessageContainer
+					<MessageDisplay
 						key={`${messageBody.type}@${messageBody.timeMillis}`}
 						{...messageBody}
 					/>,
@@ -99,8 +99,23 @@ const Chat = ({ user }: { user: string }): React.ReactElement => {
 			sendData();
 		}
 	});
+	useEffect(() => {
+		try {
+			const elem = document.querySelector(".chat-inner-wrapper");
+			if (elem) {
+				elem.scrollTop = elem.scrollHeight;
+			} else {
+			}
+		} catch (err) {
+			console.log("error encountered");
+		}
+		return () => {};
+	}, [messages]);
 	return (
-		<div className="chat">
+		<fieldset className="chat">
+			<legend>
+				Logged in as <b>{user}</b>
+			</legend>
 			<div className="chat-inner-wrapper">{messages}</div>
 			<span className="entry-box">
 				<input id="data-entry"></input>
@@ -108,7 +123,7 @@ const Chat = ({ user }: { user: string }): React.ReactElement => {
 					{chatPage.sendButtonPrompt}
 				</button>
 			</span>
-		</div>
+		</fieldset>
 	);
 };
 export default Chat;
