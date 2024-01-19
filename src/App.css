@@ -1,8 +1,6 @@
 body {
   background-color: black;
   color: #00FF33;
-}
-.App {
-  margin: 3%;
+  margin: 1%;
   min-height: 100vh;
 }
