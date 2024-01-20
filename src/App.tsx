@@ -90,15 +90,6 @@ const App = ({
 			}
 		});
 	};
-	// if (!username) {
-	// 	var newName = prompt(home.userNamePrompt) as string;
-	// 	while (!validateName(newName)) {
-	// 		console.log(newName);
-
-	// 		prompt("Username invalid! Please enter again.") as string;
-	// 	}
-	// 	setUsername(newName);
-	// }
 	if (!login) {
 		return <></>;
 	} else
