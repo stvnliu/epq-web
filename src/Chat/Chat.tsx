@@ -5,9 +5,9 @@ import React, {
 	useRef,
 	useState,
 } from "react";
-import { MessageDisplay } from "./MessageDisplay";
+import { MessageDisplay } from "../MessageDisplay/MessageDisplay";
 import { Client } from "@stomp/stompjs";
-import { Message, MessageType } from "./messageTypes";
+import { Message, MessageType } from "../type/messageTypes";
 import "./Chat.css";
 import strings from "../Intl/strings.json";
 import { LangContext } from "../context";

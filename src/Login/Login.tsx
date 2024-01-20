@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { contentTypes, domain, endpoints, port } from "../consts";
 import { LoginType } from "../context";
-import { User } from "../Chat/userTypes";
+import { User } from "../type/userTypes";
 import "./Login.css";
 const encrypt = (rawPasswordString: string) => {
 	// TODO Encryption method stub

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Message, MessageType } from "./messageTypes";
+import { Message, MessageType } from "../type/messageTypes";
 import { LangContext } from "../context";
 import strings from "../Intl/strings.json";
 import "./MessageDisplay.css";

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import Chat from "./Chat/Chat";
 import "./App.css";
-import { LangType, Message } from "./Chat/messageTypes";
-import { MessageDisplay } from "./Chat/MessageDisplay";
+import { LangType, Message } from "./type/messageTypes";
+import { MessageDisplay } from "./MessageDisplay/MessageDisplay";
 import strings from "./Intl/strings.json";
 import { LangContext, LoginContext, LoginType } from "./context";
 import { contentTypes, domain, endpoints, port } from "./consts";

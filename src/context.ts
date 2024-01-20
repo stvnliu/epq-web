@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { LangType } from "./Chat/messageTypes";
+import { LangType } from "./type/messageTypes";
 export type LoginType = {
 	username: string;
 	lastSeen: number;
