@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { contentTypes, domain, endpoints, port } from "../consts";
-import { LoginType } from "../context";
+import { LangContext, LoginType } from "../context";
 import { User } from "../type/userTypes";
 import "./Login.css";
+import strings from "../Intl/strings.json";
 const encrypt = (rawPasswordString: string) => {
         // TODO Encryption method stub
         return rawPasswordString;
@@ -12,8 +13,10 @@ export const Login = ({
 }: {
         setLogin: (newLogin: LoginType | undefined) => void;
 }): React.ReactElement => {
-        const [valid, setValid] = useState<boolean | undefined>(true);
+        const [valid, setValid] = useState<boolean | undefined>(undefined);
         const [validText, setValidText] = useState<string | undefined>();
+        const lang = useContext(LangContext);
+        const loginPage = strings[lang].login;
         const registrationHandler = () => {
                 const uname = (
                         document.getElementById("username") as HTMLInputElement
@@ -36,7 +39,9 @@ export const Login = ({
                                 // 400 Bad request
                                 console.log("Username is taken or invalid!");
                                 setValid(false);
-                                setValidText("Username is taken or invalid!");
+                                setValidText(
+                                        loginPage.error.unameTakenOrInvalid
+                                );
                         } else if (response.status === 200) {
                                 // 200 OK
                                 const futureDate = new Date();
@@ -73,7 +78,7 @@ export const Login = ({
                                                 "404 not found encountered"
                                         );
                                         throw new Error(
-                                                "Username does not exist"
+                                                loginPage.error.unameNotExists
                                         );
                                 } else if (res.status === 200) {
                                         console.log("200 OK");
@@ -88,9 +93,12 @@ export const Login = ({
                                 const validLogin = passwd === user.passwordHash;
                                 if (!validLogin) {
                                         // login invalid
-                                        throw new Error("Password incorrect!");
+                                        throw new Error(
+                                                loginPage.error.passwdInvalid
+                                        );
                                 } else {
                                         // login valid
+                                        setValid(true);
                                         const validUntilDate: Date = new Date();
                                         validUntilDate.setHours(
                                                 validUntilDate.getHours() + 2
@@ -111,47 +119,51 @@ export const Login = ({
         return (
                 <div className="login">
                         <fieldset>
-                                <legend>Login window</legend>
+                                <legend>{loginPage.window.title}</legend>
                                 <p className="uname-error-text">
-                                        {valid && valid !== undefined
-                                                ? ""
-                                                : validText}
+                                        {!valid && valid !== undefined
+                                                ? validText
+                                                : ""}
                                 </p>
-                                <label htmlFor="username">Username: </label>
+                                <label htmlFor="username">
+                                        {loginPage.window.uname}
+                                </label>
                                 <br />
                                 <input id="username" type="text"></input>
                                 <br />
-                                <label htmlFor="passwd">Password: </label>
+                                <label htmlFor="passwd">
+                                        {loginPage.window.passwd}
+                                </label>
                                 <br />
                                 <input id="passwd" type="password"></input>
                                 <br />
                                 <button
-                                        disabled={!valid}
+                                        disabled={valid}
                                         type="submit"
                                         onClick={() => {
                                                 loginHandler();
                                         }}
                                 >
-                                        Login
-                                </button>
-                                <button
-                                        disabled={!valid}
-                                        type="submit"
-                                        onClick={() => {
-                                                registrationHandler();
-                                        }}
-                                >
-                                        Register
+                                        {loginPage.window.login}
                                 </button>
                                 <button
                                         disabled={valid}
                                         type="submit"
                                         onClick={() => {
-                                                setLogin(undefined);
-                                                setValid(false);
+                                                registrationHandler();
                                         }}
                                 >
-                                        Logout
+                                        {loginPage.window.register}
+                                </button>
+                                <button
+                                        disabled={!valid}
+                                        type="submit"
+                                        onClick={() => {
+                                                setLogin(undefined);
+                                                setValid(undefined);
+                                        }}
+                                >
+                                        {loginPage.window.logout}
                                 </button>
                         </fieldset>
                 </div>

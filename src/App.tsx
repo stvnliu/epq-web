@@ -67,29 +67,10 @@ const App = ({
 }: {
 	changeLang: (value: string) => void;
 }): React.ReactElement => {
-	const [username, setUsername] = useState<string>();
 	const [messages, setMessages] = useState<Message[]>([]);
 	const login = useContext(LoginContext);
 	const lang = useContext(LangContext);
 	const home = strings[lang].homepage;
-	// TODO refine setName logic -- move to Login handler
-	const setNamePrompt = () => {
-		var newName = prompt(home.userNamePrompt) as string;
-		while (!validateName(newName)) {
-			console.log(newName);
-
-			prompt("Username invalid! Please enter again.") as string;
-		}
-		setNameOnServer(newName).then((value) => {
-			if (!value.success) {
-				alert(value.reason);
-				return true;
-			} else {
-				setUsername(newName);
-				return false;
-			}
-		});
-	};
 	if (!login) {
 		return <></>;
 	} else
@@ -116,8 +97,8 @@ const App = ({
 							})
 							.then((responseBody: { success: boolean }) => {
 								if (responseBody.success) {
-									setUsername(newUsername as string);
-								} else {
+								  // TODO Put new username response true handler method stub
+                } else {
 									console.error(
 										"Server POST message failed."
 									);

@@ -3,6 +3,7 @@ import { Message, MessageType } from "../type/messageTypes";
 import { LangContext } from "../context";
 import strings from "../Intl/strings.json";
 import "./MessageDisplay.css";
+import { queryByRole } from "@testing-library/react";
 export const MessageDisplay = ({
         type,
         fromUserId,

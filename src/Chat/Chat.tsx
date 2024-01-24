@@ -125,7 +125,10 @@ const Chat = ({ user }: { user: string }): React.ReactElement => {
         return (
                 <fieldset className="chat">
                         <legend>
-                                Logged in as <b>{user}</b>
+                                {chatPage.window.title.replaceAll(
+                                        "$userName",
+                                        user
+                                )}
                         </legend>
                         <div className="chat-inner-wrapper">{messages}</div>
                         <span className="entry-box">

@@ -1,64 +1,136 @@
 {
-	"variableNames": ["userName", "content"],
-	"acceptedLangs": ["en_US", "zh_TW", "el_GR"],
-	"en_US": {
-		"homepage": {
-			"userNamePrompt": "Your username: ",
-			"title": "LAN Chat Server",
-			"description": "This web application was built for the purposes of an EPQ project.",
-			"copyrightText": "Copyright 2024 - 2025 Zhongheng Liu @ Byron College",
-			"switchLang": "Switch Language",
-			"newLangPrompt": "Input your ISO-639_ISO-3166 language-contry code below - for example: \"en_US\": "
-		},
-		"chat": {
-			"sendButtonPrompt": "Send",
-			"serverMessage": "Message from $userName: $content",
-			"joinMessage": "$userName joined the server"
-		}
-	},
-	"zh_TW": {
-		"homepage": {
-			"userNamePrompt": "您的用戶名： ",
-			"title": "本地聊天伺服器",
-			"description": "該網絡伺服器應用程式專爲Edexcel Level 3 EPQ而製作",
-			"copyrightText": "版權所有 2024 - 2025 Zhongheng Liu @ Byron College",
-			"switchLang": "切換語言",
-			"newLangPrompt": "在下方輸入您想使用的語言的ISO-639_ISO-3166組合語言代碼 - 例如：\"en_US\"："
-		},
-		"chat": {
-			"sendButtonPrompt": "發送",
-			"serverMessage": "來自 $userName 的訊息：$content",
-			"joinMessage": "$userName 加入了伺服器！"
-		}
-	},
-	"el_GR": {
-		"homepage": {
-			"userNamePrompt": "το όνομα χρήστη σας: ",
-			"title": "Διακομιστής τοπικού δικτύου συνομιλίας",
-			"description": "Αυτή η διαδικτυακή εφαρμογή δημιουργήθηκε για τους σκοπούς ενός έργου EPQ.",
-			"copyrightText": "Πνευματικά δικαιώματα 2024 - 2025 Zhongheng Liu @ Byron College",
-			"switchLang": "Αλλαγή γλώσσας",
-			"newLangPrompt": "Εισαγάγετε τον κωδικό γλώσσας-χώρας ISO-639 ISO-3166 παρακάτω - για παράδειγμα: \"en_US\":"
-		},
-		"chat": {
-			"sendButtonPrompt": "Στείλετε",
-			"joinMessage": "$userName έγινε μέλος του διακομιστή",
-			"serverMessage": "μήνυμα από $userName: $content"
-		}
-	},
-	"ar_SA": {
-		"homepage": {
-			"userNamePrompt": "اسم المستخدم الخاص بك:",
-			"title": "خادم الدردشة LAN",
-			"description": "تم إنشاء تطبيق الويب هذا لأغراض مشروع EPQ.",
-			"copyrightText": "حقوق الطبع والنشر 2024 - 2025 Zhongheng Liu @ كلية بايرون",
-			"switchLang": "تبديل اللغة",
-			"newLangPrompt": "أدخل رمز اللغة ISO-639_ISO-3166 أدناه - على سبيل المثال: \"en_US\":"
-		},
-		"chat": {
-			"sendButtonPrompt": "يرسل",
-			"joinMessage": "$userName انضم إلى الخادم",
-			"serverMessage": "رسالة من $userName: $content"
-		}
-	}
+        "variableNames": ["userName", "content"],
+        "acceptedLangs": ["en_US", "zh_TW", "el_GR"],
+        "en_US": {
+                "homepage": {
+                        "userNamePrompt": "Your username: ",
+                        "title": "LAN Chat Server",
+                        "description": "This web application was built for the purposes of an EPQ project.",
+                        "copyrightText": "Copyright 2024 - 2025 Zhongheng Liu @ Byron College",
+                        "switchLang": "Switch Language",
+                        "newLangPrompt": "Input your ISO-639_ISO-3166 language-contry code below - for example: \"en_US\": "
+                },
+                "chat": {
+                        "window": {
+                                "title": "Logged in as $userName"
+                        },
+                        "sendButtonPrompt": "Send",
+                        "serverMessage": "Message from $userName: $content",
+                        "joinMessage": "$userName joined the server"
+                },
+                "login": {
+                        "error": {
+                                "unameTakenOrInvalid": "Username is taken or invalid!",
+                                "unameNotExists": "Username does not exist!",
+                                "passwdInvalid": "Password incorrect!"
+                        },
+                        "window": {
+                                "title": "Login window",
+                                "uname": "Username: ",
+                                "login": "Login",
+                                "passwd": "Password: ",
+                                "register": "Register",
+                                "logout": "Logout"
+                        }
+                }
+        },
+        "zh_TW": {
+                "homepage": {
+                        "userNamePrompt": "您的用戶名： ",
+                        "title": "本地聊天伺服器",
+                        "description": "該網絡伺服器應用程式專爲Edexcel Level 3 EPQ而製作",
+                        "copyrightText": "版權所有 2024 - 2025 Zhongheng Liu @ Byron College",
+                        "switchLang": "切換語言",
+                        "newLangPrompt": "在下方輸入您想使用的語言的ISO-639_ISO-3166組合語言代碼 - 例如：\"en_US\"："
+                },
+                "chat": {
+                        "window": {
+                                "title": "當前以 $userName 登入"
+                        },
+                        "sendButtonPrompt": "發送",
+                        "serverMessage": "來自 $userName 的訊息：$content",
+                        "joinMessage": "$userName 加入了伺服器！"
+                },
+                "login": {
+                        "error": {
+                                "unameTakenOrInvalid": "用戶名已存在或不合規！",
+                                "unameNotExists": "該用戶不存在！",
+                                "passwdInvalid": "密碼不正確！"
+                        },
+                        "window": {
+                                "title": "登入窗口",
+                                "uname": "用戶名：",
+                                "login": "登入",
+                                "passwd": "密碼：",
+                                "register": "註冊",
+                                "logout": "登出"
+                        }
+                }
+        },
+        "el_GR": {
+                "homepage": {
+                        "userNamePrompt": "το όνομα χρήστη σας: ",
+                        "title": "Διακομιστής τοπικού δικτύου συνομιλίας",
+                        "description": "Αυτή η διαδικτυακή εφαρμογή δημιουργήθηκε για τους σκοπούς ενός έργου EPQ.",
+                        "copyrightText": "Πνευματικά δικαιώματα 2024 - 2025 Zhongheng Liu @ Byron College",
+                        "switchLang": "Αλλαγή γλώσσας",
+                        "newLangPrompt": "Εισαγάγετε τον κωδικό γλώσσας-χώρας ISO-639 ISO-3166 παρακάτω - για παράδειγμα: \"en_US\":"
+                },
+                "chat": {
+                        "window": {
+                                "title": "Συνδεδεμένος ως $userName"
+                        },
+                        "sendButtonPrompt": "Στείλετε",
+                        "joinMessage": "$userName έγινε μέλος του διακομιστή",
+                        "serverMessage": "μήνυμα από $userName: $content"
+                },
+                "login": {
+                        "error": {
+                                "unameTakenOrInvalid": "Το όνομα χρήστη έχει ληφθεί ή δεν είναι έγκυρο!",
+                                "unameNotExists": "Το όνομα χρήστη δεν υπάρχει!",
+                                "passwdInvalid": "Λάθος κωδικός!"
+                        },
+                        "window": {
+                                "title": "Παράθυρο σύνδεσης",
+                                "uname": "Όνομα χρήστη: ",
+                                "login": "Σύνδεση",
+                                "passwd": "Κωδικός πρόσβασης: ",
+                                "register": "Εγγραφή",
+                                "logout": "Αποσύνδεση"
+                        }
+                }
+        },
+        "ar_SA": {
+                "homepage": {
+                        "userNamePrompt": "اسم المستخدم الخاص بك:",
+                        "title": "خادم الدردشة LAN",
+                        "description": "تم إنشاء تطبيق الويب هذا لأغراض مشروع EPQ.",
+                        "copyrightText": "حقوق الطبع والنشر 2024 - 2025 Zhongheng Liu @ كلية بايرون",
+                        "switchLang": "تبديل اللغة",
+                        "newLangPrompt": "أدخل رمز اللغة ISO-639_ISO-3166 أدناه - على سبيل المثال: \"en_US\":"
+                },
+                "chat": {
+                        "window": {
+                                "title": "Logged in as $userName"
+                        },
+                        "sendButtonPrompt": "يرسل",
+                        "joinMessage": "$userName انضم إلى الخادم",
+                        "serverMessage": "رسالة من $userName: $content"
+                },
+                "login": {
+                        "error": {
+                                "unameTakenOrInvalid": "Username is taken or invalid!",
+                                "unameNotExists": "Username does not exist!",
+                                "passwdInvalid": "Password incorrect!"
+                        },
+                        "window": {
+                                "title": "Login window",
+                                "uname": "Username: ",
+                                "login": "Login",
+                                "passwd": "Password: ",
+                                "register": "Register",
+                                "logout": "Logout"
+                        }
+                }
+        }
 }
