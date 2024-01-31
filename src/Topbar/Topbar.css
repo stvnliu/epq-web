@@ -1,0 +1,10 @@
+.topbar {
+    width: 100vw;
+    height: 10%;
+    z-index: 5;
+    display: flex;
+    justify-content: baseline;
+}
+.topbar-span .children {
+    margin-left: 10px;
+}

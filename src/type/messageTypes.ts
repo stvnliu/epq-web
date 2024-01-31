@@ -42,5 +42,6 @@ export type Message = {
         content: string;
         timeMillis: number;
 };
+// Type gymnastics to provide dynamic ESLint support
 export const acceptedLangs = ["en_US", "zh_TW", "el_GR", "ar_SA"] as const;
 export type LangType = (typeof acceptedLangs)[number];

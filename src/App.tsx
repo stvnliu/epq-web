@@ -7,6 +7,8 @@ import strings from "./Intl/strings.json";
 import { LangContext, LoginContext, LoginType } from "./context";
 import { contentTypes, domain, endpoints, port } from "./consts";
 import { Login } from "./Login/Login";
+import { Sidebar } from "./Sidebar/Sidebar";
+import { Topbar } from "./Topbar/Topbar";
 // what we "in the business" call type gymnastics
 const Wrapper = (): React.ReactElement => {
 	const [lang, setLang] = useState<LangType>("en_US");
@@ -16,11 +18,19 @@ const Wrapper = (): React.ReactElement => {
 			? `IRC logged in as ${login.username}`
 			: "IRC Chat";
 	}, [login]);
+	const [sidebarEnabled, setSidebarEnabled] = useState(false);
 	return (
 		<LangContext.Provider value={lang}>
-			<h1>{strings[lang].homepage.title}</h1>
-			<p>{strings[lang].homepage.description}</p>
 			<LoginContext.Provider value={login}>
+				<Topbar
+					setSidebarEnable={(enabled: boolean) =>
+						setSidebarEnabled(enabled)
+					}
+				></Topbar>
+				<Sidebar
+					isEnabled={sidebarEnabled}
+					setEnable={(enabled: boolean) => setSidebarEnabled(enabled)}
+				></Sidebar>
 				{/* callbacks for altering the Lang/Login contexts */}
 				<Login
 					setLogin={(value) => {
@@ -97,8 +107,8 @@ const App = ({
 							})
 							.then((responseBody: { success: boolean }) => {
 								if (responseBody.success) {
-								  // TODO Put new username response true handler method stub
-                } else {
+									// TODO Put new username response true handler method stub
+								} else {
 									console.error(
 										"Server POST message failed."
 									);

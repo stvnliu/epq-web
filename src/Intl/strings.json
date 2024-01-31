@@ -1,6 +1,6 @@
 {
         "variableNames": ["userName", "content"],
-        "acceptedLangs": ["en_US", "zh_TW", "el_GR"],
+        "acceptedLangs": ["en_US", "zh_TW", "el_GR", "ar_SA"],
         "en_US": {
                 "homepage": {
                         "userNamePrompt": "Your username: ",
