@@ -24,9 +24,6 @@ export const Topbar = ({
 				<h1 className="topbar-span children">
 					{strings[lang].homepage.title}
 				</h1>
-				{/* <p className="topbar-span children">
-					{strings[lang].homepage.description}
-				</p> */}
 			</span>
 		</div>
 	);
