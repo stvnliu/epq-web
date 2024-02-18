@@ -52,7 +52,7 @@ const Wrapper = (): React.ReactElement => {
 };
 const setNameOnServer = async (name: string) => {
 	const responseRaw = await fetch(
-		`http://${domain}:${port}${endpoints.user}`,
+		`https://${domain}:${port}${endpoints.user}`,
 		{
 			method: "POST",
 			mode: "cors",

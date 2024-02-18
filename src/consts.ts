@@ -1,6 +1,6 @@
 export const domain = window.location.hostname;
 export const port = "8080";
-export const connectionAddress = `ws://${domain}:${port}/ws`;
+export const connectionAddress = `wss://${domain}:${port}/ws`;
 export const endpoints = {
 	destination: "/app/chat",
 	subscription: "/sub/chat",
