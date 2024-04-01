@@ -7,6 +7,7 @@ export const endpoints = {
 	history: "/api/v1/msg/",
 	user: "/api/v1/user",
 	auth: "/api/v1/auth",
+	register: "/api/v1/register",
 	oauth2: "",
 };
 export const contentTypes = {

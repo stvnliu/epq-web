@@ -13,10 +13,6 @@ import strings from "../Intl/strings.json";
 import { LangContext } from "../context";
 import { connectionAddress, endpoints } from "../consts";
 const Chat = ({ user }: { user: string }): React.ReactElement => {
-        const encryptMessage = (plaintext: string) => {
-                const ciphertext = plaintext;
-                return ciphertext;
-        }
         const lang = useContext(LangContext);
         const chatPage = strings[lang].chat;
         const [messages, setMessages] = useState<ReactElement[]>([]);
@@ -82,7 +78,7 @@ const Chat = ({ user }: { user: string }): React.ReactElement => {
                         type: MessageType.MESSAGE,
                         fromUserId: user,
                         toUserId: "everyone",
-                        content: encryptMessage(entryElement.value),
+                        content: entryElement.value,
                         timeMillis: Date.now(),
                 };
                 console.log(

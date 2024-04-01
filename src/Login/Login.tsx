@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import { contentTypes, domain, endpoints, port } from "../consts";
 import { LangContext, LoginType } from "../context";
-import { User } from "../type/userTypes";
+import { AuthData, User } from "../type/userTypes";
 import "./Login.css";
 import strings from "../Intl/strings.json";
 import { ECDH } from "crypto";
+import { digestMessage } from "../crypto";
 const encrypt = (rawPasswordString: string) => {
 	// TODO Encryption method stub
 	return rawPasswordString;
@@ -18,86 +19,94 @@ export const Login = ({
 	const [validText, setValidText] = useState<string | undefined>();
 	const lang = useContext(LangContext);
 	const loginPage = strings[lang].login;
+	// TODO mk unit test
 	const registrationHandler = () => {
 		const uname = (document.getElementById("username") as HTMLInputElement)
 			.value;
-		const passwd = encrypt(
-			(document.getElementById("passwd") as HTMLInputElement).value
-		);
-		fetch(`https://${domain}:${port}${endpoints.user}`, {
-			method: "POST",
-			mode: "cors",
-			headers: contentTypes.json,
-			body: JSON.stringify({
-				userName: uname,
-				dateJoined: Date.now(),
-				passwordHash: passwd,
-			}),
-		}).then((response) => {
-			if (response.status === 400) {
-				// 400 Bad request
-				console.log("Username is taken or invalid!");
-				setValid(false);
-				setValidText(loginPage.error.unameTakenOrInvalid);
-			} else if (response.status === 200) {
-				// 200 OK
-				const futureDate = new Date();
-				futureDate.setHours(futureDate.getHours() + 2);
-				setLogin({
-					username: uname,
-					lastSeen: Date.now(),
-					validUntil: futureDate.getUTCMilliseconds(),
+		digestMessage((document.getElementById("passwd") as HTMLInputElement).value).then((passwd) => {
+			fetch(`https://${domain}:${port}${endpoints.register}`, {
+				method: "POST",
+				mode: "cors",
+				headers: contentTypes.json,
+				body: JSON.stringify({
+					userName: uname,
+					newUserPassword: passwd,
+				}),
+			})
+			.then((res) => res.json()).then((body) => {
+				const response = body as AuthData;
+				if (response.exists && !response.success) {throw new Error(loginPage.error.unameTakenOrInvalid)}
+				getProfile(uname).then((user) => {
+					setValid(true);
+					const futureDate = new Date();
+					futureDate.setHours(futureDate.getHours() + 2);
+					setLogin({
+						username: user.userName,
+						lastSeen: Date.now(),
+						validUntil: futureDate.getUTCMilliseconds(),
+					});
+					document.title = `IRC User ${user.userName}`;
 				});
-				document.title = `IRC User ${uname}`;
-			}
+			})
+			.catch((error: Error) => {
+				setValid(false);
+				setValidText(error.message);
+			})
 		});
 	};
+
+	// TODO Make unit test
+	const getProfile = async(userName: string): Promise<User> => {
+		const res = await (await fetch(`https://${domain}:${port}${endpoints.user}?name=${userName}`,
+		{
+			method: "GET",
+			mode: "cors"
+		}
+		)).json()
+		return res;
+	}
 	// login button press handler
+	// TODO make unit test
 	const loginHandler = () => {
 		const uname = (document.getElementById("username") as HTMLInputElement)
 			.value;
-		const passwd = encrypt(
+		digestMessage(
 			(document.getElementById("passwd") as HTMLInputElement).value
-		);
-		// async invocation of Fetch API
-		fetch(`https://${domain}:${port}${endpoints.user}?name=${uname}`, {
-			method: "GET",
-			mode: "cors",
-		})
-			.then((res) => {
-				if (res.status === 404) {
-					console.log("404 not found encountered");
-					throw new Error(loginPage.error.unameNotExists);
-				} else if (res.status === 200) {
-					console.log("200 OK");
-				}
-				return res.json();
+		).then((passwd) => {
+			// async invocation of Fetch API
+			fetch(`https://${domain}:${port}${endpoints.auth}`, {
+				method: "POST",
+				mode: "cors",
+				headers: {"Content-Type": "application/json"},
+				body: JSON.stringify({
+					userName: uname,
+					userPasswordHash: passwd,
+				})
 			})
-			.then((userObject) => {
-				if (!userObject) {
-					return;
-				}
-				const user = userObject as User;
-				const validLogin = passwd === user.passwordHash;
-				if (!validLogin) {
-					// login invalid
-					throw new Error(loginPage.error.passwdInvalid);
-				} else {
-					// login valid
-					setValid(true);
-					const validUntilDate: Date = new Date();
-					validUntilDate.setHours(validUntilDate.getHours() + 2);
-					setLogin({
-						username: user.userName,
-						lastSeen: user.lastSeen,
-						validUntil: validUntilDate.getUTCMilliseconds(),
-					});
-					document.title = `IRC User ${uname}`;
-				}
-			})
-			.catch((reason: Error) => {
-				setValid(false);
-				setValidText(reason.message);
+				.then(res => res.json())
+				.then((body) => {
+					const response = body as AuthData;
+					if (!response.exists) {throw new Error(loginPage.error.unameNotExists)}
+					else if (!response.success) {throw new Error(loginPage.error.passwdInvalid)}
+					else {
+						getProfile(uname).then((user) => {
+							// login valid
+							setValid(true);
+							const validUntilDate: Date = new Date();
+							validUntilDate.setHours(validUntilDate.getHours() + 2);
+							setLogin({
+								username: user.userName,
+								lastSeen: user.lastSeen,
+								validUntil: validUntilDate.getUTCMilliseconds(),
+							});
+							document.title = `IRC User ${uname}`;
+						});
+					}
+				})
+				.catch((reason: Error) => {
+					setValid(false);
+					setValidText(reason.message);
+				});
 			});
 	};
 	return (

@@ -11,3 +11,10 @@ export type User = {
         passwordHash: string;
         // avatar: UserAvatar;
 };
+export type AuthData = {
+        success: boolean;
+        hasProfile: boolean;
+        exists: boolean;
+        authMessage: string;
+        authResponseTimestampMillis: number;
+}
